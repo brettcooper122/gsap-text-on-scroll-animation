@@ -1,0 +1,10 @@
+# Netlify configuration for GSAP Text Animation
+
+[build]
+  # No build command needed - this is a static site
+  publish = "."
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
