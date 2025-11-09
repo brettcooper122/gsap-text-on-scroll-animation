@@ -1,77 +1,66 @@
-// Wait for DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', function() {
+// Wait for window to fully load (including GSAP scripts)
+window.addEventListener('load', function() {
+    console.log('Initializing GSAP ScrollTrigger animation...');
+
     // Register ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger);
 
     // Get the text element
     const textElement = document.getElementById('animated-text');
-    const text = textElement.textContent;
+    if (!textElement) {
+        console.error('Text element not found!');
+        return;
+    }
+
+    const originalText = textElement.textContent.trim();
+    console.log('Original text:', originalText);
 
     // Split text into individual characters and wrap each in a span
-    textElement.innerHTML = text
+    textElement.innerHTML = originalText
         .split('')
         .map(char => {
             // Preserve spaces properly
             if (char === ' ') {
-                return '<span>&nbsp;</span>';
+                return '<span class="char">&nbsp;</span>';
             }
-            return `<span>${char}</span>`;
+            return `<span class="char">${char}</span>`;
         })
         .join('');
 
     // Get all character spans
-    const chars = textElement.querySelectorAll('span');
+    const chars = textElement.querySelectorAll('.char');
+    console.log('Total characters:', chars.length);
 
-    // Create the scroll-scrubbed animation with pinning
-    gsap.fromTo(
-        chars,
-        {
-            // Initial state: dark grey
-            color: '#444444'
-        },
-        {
-            // Final state: nearly black
-            color: '#1a1a1a',
+    // Set initial color explicitly
+    gsap.set(chars, { color: '#444444' });
 
-            // Stagger effect - creates the wave of color change
-            // Each character starts animating slightly after the previous one
-            stagger: 0.1,
-
-            // Perfectly linear easing - no acceleration or deceleration
-            ease: 'none',
-
-            // ScrollTrigger configuration
-            scrollTrigger: {
-                trigger: '.text-container',
-
-                // Pin the text container when it reaches the middle of the viewport
-                pin: true,
-
-                // Animation starts when center of text-container hits center of viewport
-                start: 'center center',
-
-                // Animation continues for 100% of the viewport height while pinned
-                end: '+=100%',
-
-                // CRITICAL: scrub: 1 provides smooth, bidirectional animation
-                // The number (1) adds slight smoothing (1 second catch-up)
-                // Use scrub: true for instant response, or a number for smoothing
-                scrub: 1,
-
-                // Visual markers for development (remove in production)
-                markers: true,
-
-                // Optional: add visual feedback
-                onUpdate: (self) => {
-                    // You can see progress in console (0 to 1)
-                    console.log('Animation progress:', self.progress.toFixed(2));
-                }
+    // Create a timeline for the animation
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: '.text-container',
+            pin: true,
+            start: 'center center',
+            end: '+=100%',
+            scrub: 1,
+            markers: true,
+            onEnter: () => console.log('ScrollTrigger entered'),
+            onLeave: () => console.log('ScrollTrigger left'),
+            onEnterBack: () => console.log('ScrollTrigger entered back'),
+            onLeaveBack: () => console.log('ScrollTrigger left back'),
+            onUpdate: (self) => {
+                console.log('Progress:', (self.progress * 100).toFixed(1) + '%');
             }
         }
-    );
+    });
 
-    // Log success message
-    console.log('GSAP Scroll-Scrubbed Text Animation initialized!');
-    console.log('Total characters animated:', chars.length);
-    console.log('Scroll to see the text pin at viewport center, then animate from #444444 to #1a1a1a');
+    // Add the color animation to the timeline
+    tl.to(chars, {
+        color: '#1a1a1a',
+        stagger: 0.1,
+        ease: 'none',
+        duration: 1
+    });
+
+    console.log('GSAP ScrollTrigger animation initialized successfully!');
+    console.log('Scroll to center of viewport to see animation');
 });
