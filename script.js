@@ -22,16 +22,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get all character spans
     const chars = textElement.querySelectorAll('span');
 
-    // Create the scroll-scrubbed animation
+    // Create the scroll-scrubbed animation with pinning
     gsap.fromTo(
         chars,
         {
-            // Initial state: grey
-            color: '#808080'
+            // Initial state: dark grey
+            color: '#444444'
         },
         {
-            // Final state: black
-            color: '#000000',
+            // Final state: nearly black
+            color: '#1a1a1a',
 
             // Stagger effect - creates the wave of color change
             // Each character starts animating slightly after the previous one
@@ -44,11 +44,14 @@ document.addEventListener('DOMContentLoaded', function() {
             scrollTrigger: {
                 trigger: '.text-container',
 
-                // Animation starts when top of text-container hits 80% of viewport
-                start: 'top 80%',
+                // Pin the text container when it reaches the middle of the viewport
+                pin: true,
 
-                // Animation ends when top of text-container hits 20% of viewport
-                end: 'top 20%',
+                // Animation starts when center of text-container hits center of viewport
+                start: 'center center',
+
+                // Animation continues for 100% of the viewport height while pinned
+                end: '+=100%',
 
                 // CRITICAL: scrub: 1 provides smooth, bidirectional animation
                 // The number (1) adds slight smoothing (1 second catch-up)
@@ -70,5 +73,5 @@ document.addEventListener('DOMContentLoaded', function() {
     // Log success message
     console.log('GSAP Scroll-Scrubbed Text Animation initialized!');
     console.log('Total characters animated:', chars.length);
-    console.log('Scroll down to see characters turn black, scroll up to see them return to grey');
+    console.log('Scroll to see the text pin at viewport center, then animate from #444444 to #1a1a1a');
 });
