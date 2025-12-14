@@ -44,6 +44,7 @@ A smooth, bidirectional scroll-linked text animation where characters transition
 - `style.css` - Styling for layout, Editor's Note font, and responsive design
 - `script.js` - GSAP animation logic with character splitting and ScrollTrigger
 - `demo.html` - Self-contained single-file version for easy sharing/hosting
+- `cursor-proximity.html` - Interactive cursor proximity font weight effect
 - `README.md` - Documentation and best practices
 
 ## Usage
@@ -99,6 +100,69 @@ Also update the CSS initial color in `style.css`:
 
 ### Change Text
 In `index.html`, modify the text content inside the `<h1 id="animated-text">` element.
+
+## Cursor Proximity Font Weight Effect
+
+The `cursor-proximity.html` file demonstrates an interactive font weight effect where letters become bolder based on cursor distance. This creates a dynamic, engaging typography experience.
+
+### Features
+
+- **Smooth Transitions**: Uses GSAP's `quickTo()` method for ultra-smooth 60fps animations
+- **Variable Font**: Leverages Inter variable font (weights 100-900) for seamless weight transitions
+- **Responsive Scaling**: Automatically calculates font size to fit 90% of viewport width
+- **Performance Optimized**: Uses `requestAnimationFrame` and efficient distance calculations
+- **Natural Easing**: Power2 easing creates smooth, organic falloff from cursor position
+- **Viewport Constrained**: Text never exceeds viewport width, even with weight changes
+
+### How It Works
+
+1. **Proximity Detection**: Calculates distance between cursor and each letter's center
+2. **Weight Calculation**: Letters within 250px radius increase weight based on inverse distance
+3. **Smooth Updates**: GSAP's `quickTo()` provides butter-smooth transitions without lag
+4. **Font Variation**: Uses `font-variation-settings` for smoother rendering than `font-weight`
+
+### Customization Options
+
+**Proximity Radius** - Adjust how far the cursor effect reaches:
+```javascript
+const PROXIMITY_RADIUS = 250; // Default: 250px
+```
+
+**Weight Range** - Change minimum and maximum font weights:
+```javascript
+const MIN_WEIGHT = 300; // Default: 300 (light)
+const MAX_WEIGHT = 900; // Default: 900 (black)
+```
+
+**Easing Power** - Control how sharply weight falls off with distance:
+```javascript
+const EASING_POWER = 2; // Higher = sharper falloff, Lower = gentler gradient
+```
+
+**Animation Speed** - Adjust transition smoothness:
+```javascript
+duration: 0.3, // In quickTo() call - lower = faster, higher = smoother but slower
+```
+
+**Text Content** - Change the displayed text:
+```javascript
+const TEXT = "LET'S CHAT"; // Any text you want
+```
+
+### Technical Implementation
+
+- **GSAP quickTo()**: Creates reusable, ultra-fast animation updaters for each letter
+- **Font Variation Settings**: Uses CSS font-variation-settings for smoother rendering
+- **Binary Search**: Efficiently calculates optimal font size to fit viewport
+- **RequestAnimationFrame**: Ensures 60fps animation loop synced with browser repaints
+- **Power Easing**: Mathematical curve creates natural-feeling weight transitions
+
+### Performance Notes
+
+- Pre-calculates letter positions for efficiency
+- Uses `will-change` CSS property to optimize browser rendering
+- GSAP's `quickTo()` is specifically designed for high-frequency updates
+- Minimal DOM manipulation during animation loop
 
 ## Browser Compatibility
 
