@@ -1,8 +1,18 @@
-# GSAP Scroll-Scrubbed Text Animation
+# GSAP Text Animations & Cursor Proximity Effects
+
+A collection of smooth text animations including scroll-triggered effects and interactive cursor proximity font weight transitions. Available as standalone HTML/JavaScript demos and optimized Framer components.
+
+## 🎯 Quick Links
+
+- **Using Framer?** → See [FRAMER-SETUP.md](FRAMER-SETUP.md) for complete integration guide
+- **Want the demo?** → Open `cursor-proximity.html` in your browser
+- **Need customization?** → All parameters documented below
+
+## Scroll-Scrubbed Text Animation
 
 A smooth, bidirectional scroll-linked text animation where characters transition from dark grey (#444444) to nearly black (#1a1a1a) as you scroll. The text pins at the viewport center and animates character-by-character.
 
-## Features
+### Features
 
 - **Pin Functionality**: Text becomes fixed at viewport center during animation
 - **Bidirectional Animation**: Scroll down to darken text, scroll up to lighten it
@@ -40,12 +50,20 @@ A smooth, bidirectional scroll-linked text animation where characters transition
 
 ## Files
 
+### HTML/JavaScript Demos
 - `index.html` - Main HTML structure with text container and Google Font link
 - `style.css` - Styling for layout, Editor's Note font, and responsive design
 - `script.js` - GSAP animation logic with character splitting and ScrollTrigger
 - `demo.html` - Self-contained single-file version for easy sharing/hosting
-- `cursor-proximity.html` - Interactive cursor proximity font weight effect
-- `README.md` - Documentation and best practices
+- `cursor-proximity.html` - Interactive cursor proximity font weight effect (vanilla JS)
+
+### Framer Components
+- `CursorProximityText-FramerMotion.tsx` - **RECOMMENDED** Framer component using Framer Motion (no dependencies)
+- `CursorProximityText.tsx` - Framer component using GSAP (requires GSAP library)
+- `FRAMER-SETUP.md` - Complete Framer integration guide
+
+### Documentation
+- `README.md` - This file - Documentation and best practices
 
 ## Usage
 
